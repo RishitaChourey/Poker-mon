@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Press Start 2P', cursive;
+        }
+        body {
+            background-image: url('../static/images/Background.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .table-content {
+            color: white;
+        }
+    </style>
+</head>
+<body class="h-screen flex items-center justify-center">
+    <div class="container mx-auto p-4 bg-gray-800 bg-opacity-75 rounded-lg">
+        <h2 class="text-3xl font-bold mb-4 text-white text-center">Ranks</h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">UserID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Username</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Points</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Rank</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-gray-700 divide-y divide-gray-600 table-content">
+                    {% if ranks %}
+                        {% for rank in ranks %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ rank.userid }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ rank.username }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ rank.points }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ rank.user_rank }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="px-6 py-4 whitespace-nowrap text-center">No ranks available</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

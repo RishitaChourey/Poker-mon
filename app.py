@@ -1,5 +1,5 @@
 from flask import Flask, render_template,jsonify, request
-from database import load_rank_from_db
+from database import load_rank_from_db,load_all_ranks_from_db
 
 app=Flask(__name__)#object of class
 
@@ -17,11 +17,13 @@ def play_game():
 
 @app.route("/home/ranks")
 def show_ranks():
-  return render_template('rank_page.html')
+    ranks = load_all_ranks_from_db()
+    return render_template('rank_page.html', ranks=ranks)
 
 @app.route('/home/ranks/<int:id>', methods=['GET'])
 def show_specific_rank(id):
-  return load_rank_from_db(id=id)
+    rank = load_rank_from_db(id)
+    return jsonify(rank) if rank else jsonify({"error": "Rank not found"})
 
 @app.route("/home/logs")
 def show_logs():

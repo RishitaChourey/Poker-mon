@@ -29,30 +29,26 @@ def show_all_users():
     return rows
 
 def load_rank_from_db(id):
-    with engine.connect() as conn:
-        # Use parameterized query
-        result = conn.execute(text(f"CALL GetRanks({id})"))
-        result_all = result.all()
-        
-        if result_all:
-            req_rank = dict(result_all[0]._mapping)
-            return jsonify(req_rank)
-        else:
-            return jsonify({"error": "No rank found for the given ID"}), 404
+    try:
+        with engine.connect() as conn:
+            result = conn.execute(text("CALL getrank(:id)"), {'id': id})
+            row = result.fetchone()
+        return dict(row._mapping) if row else None
+    except SQLAlchemyError as e:
+        print(f"Error: {e}")
+        return None
 
 def load_all_ranks_from_db():
-  with engine.connect() as conn:
-    result = conn.execute(
-       text(f"call getallranks")
-      )
-    rows = []
-    for row in result.all():
-      rows.append(row._mapping)
-    if len(rows) == 0:
-      return None
-    else:
-      return row
+    try:
+        with engine.connect() as conn:
+            result = conn.execute(text("CALL getallranks()"))
+            rows = [row._mapping for row in result.all()]
+        return rows if rows else None
+    except SQLAlchemyError as e:
+        print(f"Error: {e}")
+        return None
  
+
  
 # Session = sessionmaker(bind=engine)
 # session = Session()
