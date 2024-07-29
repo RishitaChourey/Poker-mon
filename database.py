@@ -58,3 +58,15 @@ def load_all_log_contents_from_db():
     except SQLAlchemyError as e:
         print(f"Error: {e}")
         return None
+    
+def load_all_pokemon_cards():
+    try:
+        with engine.connect() as conn:
+            result=conn.execute(text("select name from pokemon order by name"))
+            rows=[row._mapping for row in result.all()]
+            return rows if rows else None
+    except SQLAlchemyError as e:
+        print(f"Error: {e}")
+        return None
+    
+# print(load_all_pokemon_cards())

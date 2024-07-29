@@ -1,5 +1,5 @@
 from flask import Flask, render_template,jsonify, request
-from database import load_rank_from_db,load_all_ranks_from_db,load_all_log_contents_from_db
+from database import load_rank_from_db,load_all_ranks_from_db,load_all_log_contents_from_db,load_all_pokemon_cards
 
 app=Flask(__name__)#object of class
 
@@ -13,7 +13,8 @@ def open_Home():
 
 @app.route("/home/play")
 def play_game():
-  return render_template('play.html')
+  pokemon_names=load_all_pokemon_cards()
+  return render_template('pokemon_cards.html',pokemons=pokemon_names)
 
 @app.route("/home/ranks")
 def show_ranks():
@@ -29,6 +30,7 @@ def show_specific_rank(id):
 def show_logs():
   logs = load_all_log_contents_from_db()
   return render_template('logs_page.html', logs=logs)
+
 
 # @app.route("/")
 # def exit_button():
