@@ -1,5 +1,5 @@
 from flask import Flask, render_template,jsonify, request
-from database import load_rank_from_db,load_all_ranks_from_db
+from database import load_rank_from_db,load_all_ranks_from_db,load_all_log_contents_from_db
 
 app=Flask(__name__)#object of class
 
@@ -27,7 +27,8 @@ def show_specific_rank(id):
 
 @app.route("/home/logs")
 def show_logs():
-  return render_template('logs_page.html')
+  logs = load_all_log_contents_from_db()
+  return render_template('logs_page.html', logs=logs)
 
 # @app.route("/")
 # def exit_button():

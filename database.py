@@ -49,43 +49,12 @@ def load_all_ranks_from_db():
         return None
  
 
- 
-# Session = sessionmaker(bind=engine)
-# session = Session()
-# def add_application_to_db(job_id, data):
-#     try:
-#         query = text("""
-#             INSERT INTO applications (
-#                 job_id,
-#                 full_name,
-#                 email,
-#                 linkedin_url,
-#                 education,
-#                 work_experience,
-#                 resume_url
-#             ) VALUES (
-#                 :job_id,
-#                 :full_name,
-#                 :email,
-#                 :linkedin_url,
-#                 :education,
-#                 :work_experience,
-#                 :resume_url
-#             )
-#         """)
-#         session.execute(query, {
-#             'job_id': job_id,
-#             'full_name': data['full_name'],
-#             'email': data['email'],
-#             'linkedin_url': data['linkedin_url'],
-#             'education': data['education'],
-#             'work_experience': data['work_experience'],  # Corrected key
-#             'resume_url': data['resume_url']
-#         })
-#         session.commit()
-#         print("Data committed successfully.")
-#     except SQLAlchemyError as e:
-#         session.rollback()
-#         print(f"An error occurred: {e}")
-#     finally:
-#         session.close()
+def load_all_log_contents_from_db():
+    try:
+        with engine.connect() as conn:
+            result = conn.execute(text("select * from battle"))
+            rows = [row._mapping for row in result.all()]
+        return rows if rows else None
+    except SQLAlchemyError as e:
+        print(f"Error: {e}")
+        return None
