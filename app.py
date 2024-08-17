@@ -11,10 +11,13 @@ def first():
 def open_Home():
   return render_template('home.html')
 
-@app.route("/home/play")
-def play_game():
-  pokemon_names=load_all_pokemon_cards()
-  return render_template('pokemon_cards.html',pokemons=pokemon_names)
+# @app.route("/home/play")
+# def play_game():
+
+@app.route("/home/shop")
+def show_shop():
+  pokemon_cards=load_all_pokemon_cards()
+  return render_template('pokemon_cards.html',pokemons=pokemon_cards)
 
 @app.route("/home/ranks")
 def show_ranks():

@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Pokémon Cards</title>
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <link href="../static/css/tailwind.css" rel="stylesheet">
         <style>
             body {
                 background-image: url('../static/images/Background.png');
@@ -17,20 +17,53 @@
             .card-image:hover {
                 transform: scale(1.05);
             }
+            .selected {
+                border: 3px solid #f70000; 
+            }
         </style>
     </head>
     <body class="bg-gray-900 text-white">
+
         <div class="container mx-auto p-4">
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {% for pokemon in pokemons %}
                 <div class="flex flex-col items-center">
-                    <a href="#">
+                    <a onclick="selectCard('{{pokemon.pokeid}}', this)">
                         <img src="../static/images/cards/{{pokemon.name}}.png" alt="{{pokemon.name}}" class="card-image object-cover rounded">
                     </a>                                      
                     <p class="mt-2">{{pokemon.name}}</p>
                 </div>
                 {% endfor %}
             </div>
+            <button onclick="submitSelection()" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
         </div>
+        <script>
+            let selectedCards = [];
+
+            function selectCard(pokeid, element) {
+                const index = selectedCards.indexOf(pokeid);
+                if (index === -1) {
+                    if (selectedCards.length < 4) {
+                        selectedCards.push(pokeid);
+                        element.querySelector('img').classList.add('selected');
+                    } else {
+                        alert('You can only select up to 4 cards.');
+                    }
+                } else {
+                    selectedCards.splice(index, 1);
+                    element.querySelector('img').classList.remove('selected');
+                }
+            }
+
+            function submitSelection() {
+                if (selectedCards.length === 4) {
+                    const jsonData = JSON.stringify(selectedCards);
+                    console.log(jsonData); // Replace this with your desired method of handling the JSON data
+                    // For example, you can send it to a server or use it in your application
+                } else {
+                    alert('Please select exactly 4 cards.');
+                }
+            }
+        </script>
     </body>
 </html>

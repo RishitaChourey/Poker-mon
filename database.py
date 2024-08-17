@@ -62,7 +62,7 @@ def load_all_log_contents_from_db():
 def load_all_pokemon_cards():
     try:
         with engine.connect() as conn:
-            result=conn.execute(text("select name from pokemon order by name"))
+            result=conn.execute(text("select Pokeid,name from pokemon order by name"))
             rows=[row._mapping for row in result.all()]
             return rows if rows else None
     except SQLAlchemyError as e:
